@@ -1,0 +1,28 @@
+{
+  "name": "tekmen-revolution",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 3000",
+    "build": "npm run build:overlay && tsc -b && vite build",
+    "preview": "vite preview --host 0.0.0.0 --port 3000",
+    "build:overlay": "vite build -c vite.overlay.config.ts",
+    "inject": "node scripts/inject-overlay.mjs"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.0.0",
+    "lucide-react": "^0.460.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "~5.6.0",
+    "vite": "^7.0.0"
+  }
+}

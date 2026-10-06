@@ -1,0 +1,5 @@
+{ "rewrites": [
+  { "source": "/sites/agency/:path((?!assets/).*)", "destination": "/sites/agency/index.html" },
+  { "source": "/sites/innovation/:path((?!assets/).*)", "destination": "/sites/innovation/index.html" },
+  { "source": "/((?!sites/|img/|assets/).*)", "destination": "/index.html" }
+] }
