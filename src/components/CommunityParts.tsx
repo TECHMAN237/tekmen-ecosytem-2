@@ -5,13 +5,13 @@ import { Container, Reveal, SectionHead, icons } from './ui'
 
 export function CommunityDomains() {
   return (
-    <section className="bg-mist py-20"><Container>
+    <section className="bg-mist py-24"><Container>
       <SectionHead eyebrow="Domains" title="Find Your Technology Domain" text="Pick the field you want to grow in. New domains can be added in src/data/community.ts." />
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {domains.map((d, i) => { const Icon = icons[d.icon]; return (
-          <Reveal key={d.id} delay={(i % 4) * 90} from="zoom"><div className="group h-full rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1.5 hover:border-royal/40 hover:shadow-lg">
-            <div className="grid h-11 w-11 place-items-center rounded-xl grad-btn text-white transition duration-300 group-hover:rotate-6 group-hover:scale-110"><Icon size={20} /></div>
-            <h3 className="mt-4 font-bold text-navy">{d.title}</h3><p className="mt-2 text-sm text-slate-600">{d.text}</p>
+          <Reveal key={d.id} delay={(i % 4) * 90} from="zoom"><div className="group h-full rounded-2xl border border-slate-200/90 bg-white p-6 transition duration-200 hover:-translate-y-1 hover:border-royal/35 hover:shadow-lg">
+            <div className="grid h-11 w-11 place-items-center rounded-xl grad-btn text-white transition duration-200 group-hover:scale-105"><Icon size={20} /></div>
+            <h3 className="mt-4 font-bold text-navy">{d.title}</h3><p className="mt-2 text-sm leading-relaxed text-slate-600">{d.text}</p>
             {d.link && <a href={d.link} className="mt-3 inline-block text-sm font-semibold text-royal">Open group →</a>}
           </div></Reveal>) })}
       </div>
@@ -20,14 +20,14 @@ export function CommunityDomains() {
 }
 export function CommunityBenefits() {
   return (
-    <section className="bg-white py-20"><Container>
+    <section className="bg-white py-24"><Container>
       <SectionHead eyebrow="Why join" title="Why Join TEKMEN Community?" text="What works today is marked Available. Everything else is a planned initiative, not an existing activity." />
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {benefits.map(b => (
-          <div key={b.title} className={`rounded-2xl border p-5 ${b.status === 'available' ? 'border-royal/30 bg-royal/5' : 'border-slate-200'}`}>
-            <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-bold ${b.status === 'available' ? 'bg-royal text-white' : 'bg-slate-100 text-slate-500'}`}>
-              {b.status === 'available' ? <CheckCircle2 size={12} /> : <Clock size={12} />}{b.status === 'available' ? 'Available' : 'Planned'}</span>
-            <h3 className="mt-3 font-bold text-navy">{b.title}</h3><p className="mt-1 text-sm text-slate-600">{b.text}</p>
+          <div key={b.title} className={`rounded-2xl border p-6 ${b.status === 'available' ? 'border-royal/30 bg-royal/[0.03]' : 'border-slate-200/90'}`}>
+            <span className={`inline-flex items-center gap-1.5 text-xs font-bold tracking-wider uppercase ${b.status === 'available' ? 'text-royal' : 'text-slate-400'}`}>
+              {b.status === 'available' ? <CheckCircle2 size={14} /> : <Clock size={14} />}{b.status === 'available' ? 'Available' : 'Planned'}</span>
+            <h3 className="mt-2.5 font-bold text-navy">{b.title}</h3><p className="mt-1.5 text-sm leading-relaxed text-slate-600">{b.text}</p>
           </div>))}
       </div>
     </Container></section>

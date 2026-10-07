@@ -1,26 +1,34 @@
 import { useState } from 'react'
-import { MessageCircle, Mail, Sparkles } from 'lucide-react'
+import { MessageCircle, Mail } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { Container, Reveal } from './ui'
+import { Container, Reveal, DarkBackdrop } from './ui'
 import { contact } from '../data/site'
+import { VISUALS } from '../data/visuals'
 
 /** Big centered call-to-action to join the TEKMEN Team. */
 export function JoinTeamBand() {
   return (
-    <section className="relative overflow-hidden bg-[#0c1124] py-24 text-center text-white">
-      <div className="dotgrid absolute inset-0" aria-hidden />
-      <div className="blob absolute left-1/4 top-0 h-72 w-72 rounded-full bg-violet/25 blur-3xl" aria-hidden />
-      <div className="blob absolute bottom-0 right-1/4 h-72 w-72 rounded-full bg-royal/20 blur-3xl" style={{ animationDelay: '-8s' }} aria-hidden />
-      <Container className="relative">
+    <section className="relative overflow-hidden bg-[#070C1D] py-28 text-center text-white">
+      <DarkBackdrop src={VISUALS.team} focus="center" intensity="balanced" />
+      <div className="blob pointer-events-none absolute left-1/4 top-0 h-72 w-72 rounded-full bg-royal/15 blur-3xl" aria-hidden />
+      <Container className="relative z-10">
         <Reveal from="zoom">
-          <span className="mx-auto mb-5 grid h-14 w-14 place-items-center rounded-2xl grad-btn"><Sparkles /></span>
-          <h2 className="mx-auto max-w-2xl text-3xl font-extrabold sm:text-5xl">Ready to build with us?</h2>
-          <p className="mx-auto mt-5 max-w-xl text-lg text-white/70">TEKMEN Team is made of builders who compete, ship and learn together. Tell us who you are and what you can bring.</p>
+          <p className="mx-auto mb-3 text-xs font-bold uppercase tracking-[0.18em] text-cyan-hi">
+            TEKMEN Team Recruitment
+          </p>
+          <h2 className="mx-auto max-w-2xl text-3xl font-extrabold leading-tight tracking-tight sm:text-5xl [text-wrap:balance]">
+            Ready to build with us?
+          </h2>
+          <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-white/75">
+            TEKMEN Team is made of builders who compete, ship and learn together. Tell us who you are and what you can bring.
+          </p>
           <div className="relative mt-10 inline-block">
             <span className="pulse-ring absolute inset-0 rounded-full" aria-hidden />
-            <Link to="/team/join" className="shine relative inline-flex items-center gap-3 rounded-full grad-btn px-10 py-5 text-lg font-extrabold text-white shadow-2xl shadow-royal/40 transition hover:scale-105">Join the Team</Link>
+            <Link to="/team/join" className="shine relative inline-flex items-center gap-3 whitespace-nowrap rounded-full grad-btn px-10 py-4 text-base font-bold text-white shadow-2xl shadow-royal/30 ring-1 ring-white/15 transition duration-200 hover:scale-105">
+              Join the Team
+            </Link>
           </div>
-          <p className="mt-5 text-sm text-white/50">Takes about 2 minutes</p>
+          <p className="mt-5 text-xs text-white/55">Takes about 2 minutes</p>
         </Reveal>
       </Container>
     </section>

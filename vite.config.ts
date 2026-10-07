@@ -23,4 +23,11 @@ function sisterSites(): Plugin {
     configurePreviewServer: s => { s.middlewares.use(mw(join(s.config.root, 'dist'))) },
   }
 }
-export default defineConfig({ plugins: [react(), tailwindcss(), sisterSites()] })
+export default defineConfig({
+  plugins: [react(), tailwindcss(), sisterSites()],
+  server: {
+    host: '0.0.0.0',
+    port: 3000,
+    allowedHosts: true,
+  },
+})

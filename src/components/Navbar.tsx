@@ -14,11 +14,11 @@ export default function Navbar() {
     window.addEventListener('scroll', f, { passive: true }); return () => window.removeEventListener('scroll', f)
   }, [])
   return (
-    <header className={`nav-in fixed inset-x-0 top-0 z-40 transition ${solid || open ? 'bg-[#0c1124]/92 shadow-lg backdrop-blur' : 'bg-transparent'}`}>
+    <header className={`nav-in fixed inset-x-0 top-0 z-40 transition duration-200 ${solid || open ? 'border-b border-white/10 bg-[#070C1D]/92 shadow-lg backdrop-blur-md' : 'bg-transparent'}`}>
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
         <Link to="/" className="flex items-center gap-2.5 text-white" aria-label="TEKMEN Revolution home">
-          <img src="/img/logo.png" alt="" className="h-9 w-9 rounded-lg" />
-          <span className="text-sm font-extrabold tracking-wide">TEKMEN <span className="font-medium text-white/70">Revolution</span></span>
+          <img src="/img/logo.png" alt="" referrerPolicy="no-referrer" className="h-9 w-9 rounded-lg" />
+          <span className="text-sm font-extrabold tracking-wide">TEKMEN <span className="font-medium text-white/75">Revolution</span></span>
         </Link>
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
           {nav.map(n => (
