@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Cta, Container, DarkBackdrop } from './ui'
 import { PILLAR_VISUALS, VISUALS } from '../data/visuals'
 import { branches } from '../data/site'
@@ -63,14 +64,20 @@ export default function Hero() {
             <span className="rise shimmer-text mt-1 block" style={{ animationDelay: '.22s' }}>Infinite Possibilities.</span>
           </h1>
           <p className="rise mt-6 max-w-xl text-lg leading-relaxed text-white/75" style={{ animationDelay: '.35s' }}>
-            An ecosystem of creators, engineers, and technology enthusiasts building real-world solutions, developing talent, and shaping the digital future from Buea, Cameroon.
+            An interconnected technology ecosystem turning ambitious ideas and real-world problems into useful, scalable software solutions, competitive engineering, and community empowerment.
           </p>
           <p className="rise mt-4 text-base text-white/65" style={{ animationDelay: '.45s' }}>
             Together, we <Typer />
           </p>
           <div className="rise mt-9 flex flex-wrap gap-3.5" style={{ animationDelay: '.55s' }}>
-            <Cta to="#ecosystem-constellation">Explore Our Ecosystem</Cta>
-            <Cta to="/community#join" variant="ghost" arrow={false}>Join Our Community</Cta>
+            <Cta to="/portfolio">Explore Our Solutions</Cta>
+            <Cta to="#ecosystem-constellation" variant="ghost" arrow={false}>Explore Ecosystem</Cta>
+          </div>
+          <div className="rise mt-4 flex items-center gap-2 text-xs text-white/60" style={{ animationDelay: '.65s' }}>
+            <span>Have an app idea or technical challenge?</span>
+            <Link to="/contact?type=build" className="font-semibold text-cyan-hi hover:underline inline-flex items-center gap-1">
+              Build with TEKMEN &rarr;
+            </Link>
           </div>
         </div>
 

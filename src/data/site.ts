@@ -9,8 +9,13 @@ export const social = {
   github: 'https://github.com/TECHMAN237',
 }
 export const nav = [
-  { to: '/', label: 'Home' }, { to: '/ecosystem', label: 'Ecosystem' }, { to: '/about', label: 'Our Story' },
-  { to: '/team', label: 'Team' }, { to: '/community', label: 'Community' }, { to: '/contact', label: 'Contact' },
+  { to: '/', label: 'Home' },
+  { to: '/ecosystem', label: 'Ecosystem' },
+  { to: '/portfolio', label: 'Portfolio' },
+  { to: '/about', label: 'Our Story' },
+  { to: '/team', label: 'Team' },
+  { to: '/community', label: 'Community' },
+  { to: '/contact', label: 'Contact' },
 ]
 export type Branch = {
   id: 'agency' | 'innovation' | 'team' | 'community'
@@ -27,6 +32,7 @@ export type Branch = {
   icon: string
   position: 'top' | 'right' | 'bottom' | 'left'
   accent: string
+  isPrimaryEngine?: boolean
 }
 export const branches: Branch[] = [
   {
@@ -49,17 +55,18 @@ export const branches: Branch[] = [
     id: 'innovation',
     title: 'TEKMEN Innovation Solutions',
     shortTitle: 'Innovation Solutions',
-    tagline: 'Web, Mobile, AI & IoT Engineering',
-    cta: 'Discover Innovation',
-    to: LINKS.innovation,
-    external: true,
+    tagline: 'Primary Growth Engine · Web, Mobile, AI & IoT',
+    cta: 'Explore Solutions & Portfolio',
+    to: '/portfolio',
+    external: false,
     image: '/img/real/raydar1.jpg',
     tone: 'from-[#101E42] to-[#091024]',
     icon: 'Cpu',
     position: 'right',
     accent: '#38BDF8',
-    capabilities: ['Custom Web & Mobile Platforms', 'Applied AI & Computer Vision', 'Connected IoT Hardware Systems', 'Enterprise Software Architecture'],
-    text: 'Turning real-world problems into powerful digital products, intelligent systems, and innovative technology solutions.',
+    isPrimaryEngine: true,
+    capabilities: ['Custom Web & Mobile Platforms', 'Applied AI & Computer Vision', 'Connected IoT Hardware Systems', 'Enterprise Software Architecture', 'Rapid Prototyping to Production'],
+    text: 'We turn ideas and real-world problems into useful, scalable technology solutions — developing custom web platforms, mobile applications, applied AI systems, and connected IoT hardware.',
   },
   {
     id: 'team',

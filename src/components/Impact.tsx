@@ -53,9 +53,9 @@ export function ProjectGallery({ limit }: { limit?: number }) {
     <section className="bg-mist py-24">
       <Container>
         <SectionHead
-          eyebrow="Featured projects"
-          title="Selected Projects & Experiences"
-          text="Real products and platforms engineered by TEKMEN Innovation Solutions."
+          eyebrow="Featured Technology Portfolio"
+          title="Don't Just Take Our Word For It. Explore What We've Built."
+          text="Real software, platforms, and intelligent solutions engineered by TEKMEN Innovation Solutions to solve practical problems."
         />
         <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
           {list.map((p, i) => (
@@ -70,6 +70,9 @@ export function ProjectGallery({ limit }: { limit?: number }) {
                       referrerPolicy="no-referrer"
                       className="h-full w-full object-cover transition duration-500 hover:scale-105"
                     />
+                    <div className="absolute top-3 right-3 rounded-full bg-[#070C1D]/80 px-2.5 py-0.5 text-[10px] font-semibold text-cyan-hi backdrop-blur-md">
+                      {p.status}
+                    </div>
                   </div>
                   <div className="flex flex-1 flex-col p-6">
                     <p className="text-xs font-semibold tracking-wider text-royal uppercase">{p.category}</p>
@@ -78,14 +81,25 @@ export function ProjectGallery({ limit }: { limit?: number }) {
                     <p className="mt-4 border-t border-slate-100 pt-3 text-xs text-slate-500">
                       {p.tech.join(' · ')}
                     </p>
-                    <a href={p.to} className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-royal hover:underline">
-                      View Project →
-                    </a>
+                    <div className="mt-4 flex items-center justify-between border-t border-slate-100 pt-3">
+                      <Cta to="/portfolio" variant="dark" arrow={false} className="!py-1.5 !px-3.5 !text-xs">
+                        Case Details &rarr;
+                      </Cta>
+                      {p.liveUrl && (
+                        <a href={p.liveUrl} target="_blank" rel="noopener noreferrer" className="text-xs font-semibold text-royal hover:underline">
+                          Live App &nearr;
+                        </a>
+                      )}
+                    </div>
                   </div>
                 </article>
               </Tilt>
             </Reveal>
           ))}
+        </div>
+        <div className="mt-12 flex flex-wrap justify-center gap-4">
+          <Cta to="/portfolio">Explore Full Technology Portfolio</Cta>
+          <Cta to="/contact?type=build" variant="ghost">Have an Idea? Let's Build It</Cta>
         </div>
       </Container>
     </section>

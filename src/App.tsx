@@ -5,9 +5,19 @@ import Footer from './components/Footer'
 import { HubAssistant } from './components/Assistant'
 import { ScrollProgress } from './components/ui'
 import Home from './pages/Home'
-import { EcosystemPage, AboutPage, TeamPage, MembersPage, MemberDetail, JoinTeamPage, CommunityPage, ContactPage, NotFound } from './pages/Simple'
+import { EcosystemPage, AboutPage, TeamPage, MembersPage, MemberDetail, JoinTeamPage, CommunityPage, ContactPage, PortfolioPage, NotFound } from './pages/Simple'
 
-const titles: Record<string, string> = { '/': 'TEKMEN Revolution — One Vision. Four Pillars.', '/ecosystem': 'Ecosystem — TEKMEN Revolution', '/about': 'Our Story — TEKMEN Revolution', '/team': 'Team — TEKMEN Revolution', '/team/members': 'All Members — TEKMEN Revolution', '/team/join': 'Join the Team — TEKMEN Revolution', '/community': 'Community — TEKMEN Revolution', '/contact': 'Contact — TEKMEN Revolution' }
+const titles: Record<string, string> = { 
+  '/': 'TEKMEN Revolution — One Vision. Four Pillars.', 
+  '/ecosystem': 'Ecosystem — TEKMEN Revolution', 
+  '/portfolio': 'Technology Portfolio — TEKMEN Innovation Solutions',
+  '/about': 'Our Story — TEKMEN Revolution', 
+  '/team': 'Team — TEKMEN Revolution', 
+  '/team/members': 'All Members — TEKMEN Revolution', 
+  '/team/join': 'Join the Team — TEKMEN Revolution', 
+  '/community': 'Community — TEKMEN Revolution', 
+  '/contact': 'Initiate a Project — TEKMEN Revolution' 
+}
 function RouteEffects() {
   const { pathname, hash } = useLocation()
   useEffect(() => {
@@ -21,9 +31,17 @@ export default function App() {
   return <>
     <RouteEffects /><ScrollProgress /><Navbar />
     <main id="main" key={pathname} className="page-in"><Routes>
-      <Route path="/" element={<Home />} /><Route path="/ecosystem" element={<EcosystemPage />} /><Route path="/about" element={<AboutPage />} />
-      <Route path="/team" element={<TeamPage />} /><Route path="/team/members" element={<MembersPage />} /><Route path="/team/join" element={<JoinTeamPage />} /><Route path="/team/members/:id" element={<MemberDetail />} />
-      <Route path="/community" element={<CommunityPage />} /><Route path="/contact" element={<ContactPage />} /><Route path="*" element={<NotFound />} />
+      <Route path="/" element={<Home />} />
+      <Route path="/ecosystem" element={<EcosystemPage />} />
+      <Route path="/portfolio" element={<PortfolioPage />} />
+      <Route path="/about" element={<AboutPage />} />
+      <Route path="/team" element={<TeamPage />} />
+      <Route path="/team/members" element={<MembersPage />} />
+      <Route path="/team/join" element={<JoinTeamPage />} />
+      <Route path="/team/members/:id" element={<MemberDetail />} />
+      <Route path="/community" element={<CommunityPage />} />
+      <Route path="/contact" element={<ContactPage />} />
+      <Route path="*" element={<NotFound />} />
     </Routes></main>
     <Footer /><HubAssistant />
   </>

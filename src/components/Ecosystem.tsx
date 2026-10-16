@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight, ArrowRight } from 'lucide-react'
-import { branches, type Branch } from '../data/site'
+import { branches, type Branch, LINKS } from '../data/site'
 import { PILLAR_VISUALS, VISUALS } from '../data/visuals'
 import { Container, Reveal, SectionHead, Tilt, Cta, DarkBackdrop, icons } from './ui'
 
@@ -22,7 +22,14 @@ export function BranchCard({ b }: { b: Branch }) {
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-[#070C1D]/90 via-[#070C1D]/25 to-transparent" />
         <div className="absolute bottom-4 left-5 right-5 flex items-center justify-between">
-          <span className="text-xs font-semibold tracking-wider text-cyan-hi uppercase">{b.shortTitle}</span>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-semibold tracking-wider text-cyan-hi uppercase">{b.shortTitle}</span>
+            {b.isPrimaryEngine && (
+              <span className="rounded-full bg-cyan-hi/20 border border-cyan-hi/40 px-2 py-0.5 text-[10px] font-bold text-cyan-hi tracking-wide">
+                Primary Engine
+              </span>
+            )}
+          </div>
           <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/15 bg-[#070C1D]/70 text-white backdrop-blur-md">
             <Icon size={18} />
           </div>
@@ -35,14 +42,23 @@ export function BranchCard({ b }: { b: Branch }) {
         <div className="mt-4 border-t border-slate-100 pt-3 text-xs text-slate-500">
           {b.capabilities.slice(0, 2).join(' · ')}
         </div>
-        <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-royal">
-          {b.cta}
-          <ArrowUpRight size={16} className="transition duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </span>
+        <div className="mt-4 flex items-center justify-between">
+          <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-royal">
+            {b.cta}
+            <ArrowUpRight size={16} className="transition duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </span>
+          {b.id === 'innovation' && (
+            <span className="text-xs font-bold text-royal hover:underline">
+              Build an App &rarr;
+            </span>
+          )}
+        </div>
       </div>
     </>
   )
-  const cls = 'group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-sm transition duration-200 hover:-translate-y-1 hover:border-royal/30 hover:shadow-xl'
+  const cls = `group flex h-full flex-col overflow-hidden rounded-2xl border bg-white shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-xl ${
+    b.isPrimaryEngine ? 'border-royal/40 ring-1 ring-royal/20 hover:border-royal' : 'border-slate-200/90 hover:border-royal/30'
+  }`
   return b.external ? <a href={b.to} className={cls}>{body}</a> : <Link to={b.to} className={cls}>{body}</Link>
 }
 
@@ -429,11 +445,21 @@ export default function Ecosystem() {
                   ))}
                 </div>
 
-                <div className="mt-7 flex flex-wrap items-center gap-4">
-                  <Cta to={activeBranch.to}>{activeBranch.cta}</Cta>
-                  <Cta to="/ecosystem" variant="ghost" arrow={false}>
-                    View Full Ecosystem Overview
-                  </Cta>
+                <div className="mt-7 flex flex-wrap items-center gap-3.5">
+                  {activeBranch.id === 'innovation' ? (
+                    <>
+                      <Cta to="/portfolio">Explore Solutions & Portfolio</Cta>
+                      <Cta to="/contact?type=build" variant="ghost">Build Your App</Cta>
+                      <Cta to={LINKS.innovation} variant="ghost" arrow={false}>Branch Portal</Cta>
+                    </>
+                  ) : (
+                    <>
+                      <Cta to={activeBranch.to}>{activeBranch.cta}</Cta>
+                      <Cta to="/ecosystem" variant="ghost" arrow={false}>
+                        View Full Ecosystem Overview
+                      </Cta>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

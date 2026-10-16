@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { Search, Linkedin, ArrowLeft, MessageCircle, Mail } from 'lucide-react'
+import { useMemo, useState, useEffect } from 'react'
+import { Link, useParams, useSearchParams } from 'react-router-dom'
+import { Search, Linkedin, ArrowLeft, MessageCircle, Mail, CheckCircle2, Sparkles, Send } from 'lucide-react'
 import { PageHero, Container, Cta, SectionHead, Reveal, DarkBackdrop } from '../components/ui'
 import Ecosystem, { BranchCard } from '../components/Ecosystem'
 import Story from '../components/Story'
@@ -9,9 +9,11 @@ import { TeamExperiences, ProjectGallery } from '../components/Impact'
 import { CommunityDomains, CommunityBenefits, CommunityRegistration } from '../components/CommunityParts'
 import { CommunityBand, FinalCta } from './Home'
 import { JoinTeamBand, JoinTeamForm } from '../components/JoinTeam'
+import { TestimonialsSection } from '../components/Testimonials'
 import { branches, contact } from '../data/site'
 import { members } from '../data/team'
 import { VISUALS, PILLAR_VISUALS } from '../data/visuals'
+export { PortfolioPage } from './PortfolioPage'
 
 export function EcosystemPage() {
   return <>
@@ -21,7 +23,10 @@ export function EcosystemPage() {
       text="Creative services, product innovation, competitive talent and community collaboration — each independent, all connected."
       bgImage={VISUALS.innovation}
       visuals={[PILLAR_VISUALS.agency, PILLAR_VISUALS.innovation, PILLAR_VISUALS.team]}
-    />
+    >
+      <Cta to="/portfolio">Explore Solutions & Portfolio</Cta>
+      <Cta to="/contact?type=build" variant="ghost">Build Your App</Cta>
+    </PageHero>
     <Ecosystem />
     <section className="bg-mist py-20">
       <Container>
@@ -36,6 +41,7 @@ export function EcosystemPage() {
       </Container>
     </section>
     <ProjectGallery />
+    <TestimonialsSection dark={true} />
     <FinalCta />
   </>
 }
@@ -153,34 +159,195 @@ export function CommunityPage() {
 }
 
 export function ContactPage() {
-  const [name, setName] = useState(''); const [msg, setMsg] = useState(''); const [err, setErr] = useState('')
-  const send = (e: React.FormEvent) => {
-    e.preventDefault(); if (name.trim().length < 2 || msg.trim().length < 10) { setErr('Please add your name and a message of at least 10 characters.'); return }
-    setErr(''); window.open(`https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(`Hello TEKMEN, I'm ${name.trim()}.\n\n${msg.trim()}`)}`, '_blank', 'noopener')
+  const [params] = useSearchParams()
+  const projectParam = params.get('project') || ''
+  const typeParam = params.get('type') || ''
+
+  const defaultCategory = 
+    typeParam === 'build' || typeParam === 'innovation'
+      ? 'Custom Web Application'
+      : projectParam
+      ? 'Custom Web Application'
+      : 'General Inquiry'
+
+  const [name, setName] = useState('')
+  const [contactMethod, setContactMethod] = useState('')
+  const [projectType, setProjectType] = useState(defaultCategory)
+  const [msg, setMsg] = useState(
+    projectParam ? `Hello TEKMEN, I am interested in discussing a project similar to ${projectParam}. ` : ''
+  )
+  const [err, setErr] = useState('')
+  const [submitted, setSubmitted] = useState(false)
+
+  const preparePayload = () => {
+    return `Hello TEKMEN Revolution / Innovation Solutions team,\n\nName: ${name.trim()}\nContact: ${contactMethod.trim() || 'Not specified'}\nProject Type: ${projectType}\n${projectParam ? `Project Reference: ${projectParam}\n` : ''}\nDetails / Problem Description:\n${msg.trim()}`
   }
-  const field = 'mt-1.5 w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none focus:border-royal focus:ring-2 focus:ring-royal/20'
-  return <>
-    <PageHero
-      eyebrow="Contact"
-      title="Let's build something together."
-      text="Tell us about your idea, project or how you'd like to collaborate."
-      bgImage={VISUALS.heroEcosystem}
-    />
-    <section className="bg-mist py-20"><Container className="grid gap-8 md:grid-cols-2">
-      <form onSubmit={send} noValidate className="rounded-3xl border border-slate-200/80 bg-white p-7 shadow-sm">
-        <label className="block text-sm font-semibold text-navy">Your name<input className={field} value={name} onChange={e => setName(e.target.value)} /></label>
-        <label className="mt-4 block text-sm font-semibold text-navy">Message<textarea rows={5} className={field} value={msg} onChange={e => setMsg(e.target.value)} /></label>
-        {err && <p role="alert" className="mt-2 text-xs font-medium text-red-600">{err}</p>}
-        <button className="mt-5 inline-flex items-center gap-2 rounded-full grad-btn px-7 py-3 text-sm font-semibold text-white"><MessageCircle size={16} />Send via WhatsApp</button>
-        <p className="mt-3 text-xs text-slate-500">This opens WhatsApp with your message prefilled. Nothing is sent until you press send there.</p>
-      </form>
-      <div className="space-y-4">
-        <a href={`mailto:${contact.email}`} className="flex items-center gap-4 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition hover:shadow-lg"><Mail className="text-royal" /><div><p className="font-bold text-navy">Email</p><p className="text-sm text-slate-600">{contact.email}</p></div></a>
-        <a href={`https://wa.me/${contact.whatsapp}`} target="_blank" rel="noreferrer" className="flex items-center gap-4 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition hover:shadow-lg"><MessageCircle className="text-royal" /><div><p className="font-bold text-navy">WhatsApp</p><p className="text-sm text-slate-600">{contact.whatsappDisplay}</p></div></a>
-        <p className="rounded-2xl border border-slate-200/80 bg-white p-6 text-sm text-slate-600 shadow-sm"><strong className="text-navy">Based in</strong><br />{contact.location}</p>
-      </div>
-    </Container></section>
-  </>
+
+  const sendWhatsApp = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (name.trim().length < 2 || msg.trim().length < 10) {
+      setErr('Please provide your name and a brief description (at least 10 characters).')
+      return
+    }
+    setErr('')
+    const payload = preparePayload()
+    
+    // Save record to local storage for auditable visitor trace
+    try {
+      const existing = JSON.parse(localStorage.getItem('tekmen_inquiries') || '[]')
+      existing.push({ date: new Date().toISOString(), name, contactMethod, projectType, msg, projectParam })
+      localStorage.setItem('tekmen_inquiries', JSON.stringify(existing))
+    } catch {}
+
+    setSubmitted(true)
+    window.open(`https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(payload)}`, '_blank', 'noopener')
+  }
+
+  const sendEmail = () => {
+    if (name.trim().length < 2 || msg.trim().length < 10) {
+      setErr('Please provide your name and a brief description (at least 10 characters).')
+      return
+    }
+    setErr('')
+    const payload = preparePayload()
+    window.location.href = `mailto:${contact.email}?subject=${encodeURIComponent(`Project Inquiry: ${projectType} - ${name.trim()}`)}&body=${encodeURIComponent(payload)}`
+  }
+
+  const field = 'mt-1.5 w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none focus:border-royal focus:ring-2 focus:ring-royal/20 bg-white'
+
+  return (
+    <>
+      <PageHero
+        eyebrow="Initiate A Project"
+        title="Have an Idea? Let's Build It."
+        text="Whether you need a custom web application, mobile app, AI solution, connected IoT system, or creative services — tell us what you're trying to solve."
+        bgImage={VISUALS.heroEcosystem}
+      />
+      <section className="bg-mist py-20">
+        <Container className="grid gap-8 md:grid-cols-[1.25fr_0.75fr]">
+          <form onSubmit={sendWhatsApp} noValidate className="rounded-3xl border border-slate-200/80 bg-white p-7 sm:p-8 shadow-sm">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-5">
+              <div>
+                <h3 className="text-lg font-bold text-navy">Project & Inquiry Brief</h3>
+                <p className="text-xs text-slate-500">Initiate a conversation directly with our engineering and leadership team</p>
+              </div>
+              <span className="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-royal">
+                Direct Dispatch
+              </span>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className="block text-sm font-semibold text-navy">
+                Your Name <span className="text-royal">*</span>
+                <input 
+                  className={field} 
+                  value={name} 
+                  onChange={e => setName(e.target.value)} 
+                  placeholder="e.g. Sarah M."
+                  required 
+                />
+              </label>
+
+              <label className="block text-sm font-semibold text-navy">
+                Email or Phone / WhatsApp
+                <input 
+                  className={field} 
+                  value={contactMethod} 
+                  onChange={e => setContactMethod(e.target.value)} 
+                  placeholder="contact@domain.com or +237..." 
+                />
+              </label>
+            </div>
+
+            <label className="mt-4 block text-sm font-semibold text-navy">
+              What Are You Looking to Build?
+              <select 
+                value={projectType} 
+                onChange={e => setProjectType(e.target.value)} 
+                className={field}
+              >
+                <option value="Custom Web Application">Custom Web Application (Vite / React / Next.js)</option>
+                <option value="Mobile App (iOS/Android)">Mobile Application (iOS / Android / React Native)</option>
+                <option value="Applied AI & Computer Vision">Applied AI & Computer Vision Solution</option>
+                <option value="IoT & Hardware Systems">IoT Connected System & Embedded Hardware</option>
+                <option value="Enterprise Digital Platform">Enterprise Digital Platform Architecture</option>
+                <option value="Creative Agency & Brand Identity">Creative Agency Services (Branding, UI/UX, Video)</option>
+                <option value="General Ecosystem Inquiry">General Ecosystem Collaboration</option>
+              </select>
+            </label>
+
+            <label className="mt-4 block text-sm font-semibold text-navy">
+              Describe the Problem or Product Vision <span className="text-royal">*</span>
+              <textarea 
+                rows={5} 
+                className={field} 
+                value={msg} 
+                onChange={e => setMsg(e.target.value)} 
+                placeholder="Tell us about the problem you want to solve, the target users, or key capabilities required..."
+                required 
+              />
+            </label>
+
+            {err && <p role="alert" className="mt-3 text-xs font-medium text-red-600">{err}</p>}
+
+            {submitted && (
+              <div className="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-xs text-emerald-800 flex items-center gap-2">
+                <CheckCircle2 size={16} className="text-emerald-600 shrink-0" />
+                <span>Inquiry prepared! WhatsApp has been opened with your prefilled brief. You may also click below to send via email.</span>
+              </div>
+            )}
+
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <button 
+                type="submit" 
+                className="inline-flex items-center gap-2 rounded-full grad-btn px-7 py-3 text-sm font-semibold text-white shadow hover:brightness-110 transition"
+              >
+                <MessageCircle size={16} /> Send via WhatsApp
+              </button>
+              
+              <button
+                type="button"
+                onClick={sendEmail}
+                className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition"
+              >
+                <Mail size={16} /> Send via Email
+              </button>
+            </div>
+
+            <p className="mt-3 text-xs text-slate-500">
+              No account creation required. Submissions immediately open your prefilled message to guarantee prompt review.
+            </p>
+          </form>
+
+          <div className="space-y-4">
+            <a href={`mailto:${contact.email}`} className="flex items-center gap-4 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition hover:shadow-lg hover:border-royal/30">
+              <Mail className="text-royal" size={24} />
+              <div>
+                <p className="font-bold text-navy">Direct Email</p>
+                <p className="text-sm text-slate-600">{contact.email}</p>
+              </div>
+            </a>
+            <a href={`https://wa.me/${contact.whatsapp}`} target="_blank" rel="noreferrer" className="flex items-center gap-4 rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition hover:shadow-lg hover:border-royal/30">
+              <MessageCircle className="text-royal" size={24} />
+              <div>
+                <p className="font-bold text-navy">WhatsApp Line</p>
+                <p className="text-sm text-slate-600">{contact.whatsappDisplay}</p>
+              </div>
+            </a>
+            <div className="rounded-2xl border border-slate-200/80 bg-white p-6 text-sm text-slate-600 shadow-sm">
+              <strong className="text-navy">Headquarters & Engineering Base</strong>
+              <p className="mt-1">{contact.location}</p>
+              <p className="mt-2 text-xs text-slate-500">Available for local stakeholder meetings and global digital delivery.</p>
+            </div>
+            <div className="rounded-2xl border border-royal/20 bg-royal/[0.03] p-5 text-xs text-slate-600">
+              <strong className="text-royal block mb-1">Commercial Engagement:</strong>
+              TEKMEN Innovation Solutions undertakes client software projects on clear milestones, beginning with requirement architecture and prototyping through production deployment.
+            </div>
+          </div>
+        </Container>
+      </section>
+    </>
+  )
 }
 
 export function NotFound() {

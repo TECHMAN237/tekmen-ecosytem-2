@@ -25,13 +25,18 @@ export default function Navbar() {
             <NavLink key={n.to} to={n.to} end={n.to === '/'} className={({ isActive }) => `link-u px-4 py-2 text-sm font-medium transition ${isActive ? 'active text-white' : 'text-white/70 hover:text-white'}`}>{n.label}</NavLink>
           ))}
         </nav>
-        <div className="hidden lg:block"><Cta to="/community#join" arrow={false} className="!py-2.5">Join Our Community</Cta></div>
+        <div className="hidden lg:flex items-center gap-2.5">
+          <Cta to="/contact?type=build" arrow={false} className="!py-2.5">Build Your App</Cta>
+        </div>
         <button className="rounded-lg p-2 text-white lg:hidden" onClick={() => setOpen(o => !o)} aria-expanded={open} aria-label="Toggle menu">{open ? <X /> : <Menu />}</button>
       </div>
       {open && (
         <nav className="border-t border-white/10 px-5 pb-6 pt-3 lg:hidden" aria-label="Mobile">
           {nav.map(n => <NavLink key={n.to} to={n.to} end={n.to === '/'} className="block rounded-lg px-3 py-3 text-base font-medium text-white/85 hover:bg-white/10">{n.label}</NavLink>)}
-          <Cta to="/community#join" arrow={false} className="mt-3 w-full">Join Our Community</Cta>
+          <div className="mt-4 flex flex-col gap-2">
+            <Cta to="/contact?type=build" arrow={false} className="w-full">Build Your App</Cta>
+            <Cta to="/community#join" variant="ghost" arrow={false} className="w-full">Join Our Community</Cta>
+          </div>
         </nav>
       )}
     </header>

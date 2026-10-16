@@ -5,6 +5,7 @@ import { Impact, ProjectGallery, PosterMarquee, StatsBand, TechMarquee } from '.
 import { FounderSection, TeamPreview } from '../components/People'
 import { Container, Cta, DarkBackdrop } from '../components/ui'
 import { VISUALS } from '../data/visuals'
+import { TestimonialsSection } from '../components/Testimonials'
 
 export function CommunityBand() {
   return (
@@ -61,7 +62,8 @@ export function FinalCta() {
           Whether you are a business seeking digital transformation, a software engineer, a creative designer, or passionate about technology, there is a place for you in the TEKMEN ecosystem.
         </p>
         <div className="mt-9 flex flex-wrap justify-center gap-3.5">
-          <Cta to="/ecosystem">Explore Our Ecosystem</Cta>
+          <Cta to="/portfolio">Explore Our Solutions</Cta>
+          <Cta to="/contact?type=build" variant="ghost">Build Your App</Cta>
           <Cta to="/community#join" variant="ghost" arrow={false}>Join TEKMEN Community</Cta>
         </div>
       </Container>
@@ -80,6 +82,7 @@ export default function Home() {
       <PosterMarquee />
       <Impact />
       <ProjectGallery limit={3} />
+      <TestimonialsSection dark={false} />
       <CommunityBand />
       <FounderSection />
       <TeamPreview limit={3} />

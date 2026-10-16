@@ -11,8 +11,8 @@ export const members: Member[] = [
 ]
 export type Experience = { id: string; category: string; title: string; text: string; image?: string; status: string; placeholder?: boolean }
 export const experiences: Experience[] = [
-  { id: 'scs', category: 'Projects', title: 'Smart Child Safety System', image: '/img/real/asw.jpg', status: 'Flagship project',
-    text: 'Incident reporting, case management and notifications, evolving toward a connected wearable device for real-time location and alerts.' },
+  { id: 'rida', category: 'Technology Projects', title: 'RIDA — Workflow & Platform Architecture', image: '/img/real/raydar1.jpg', status: 'In Development',
+    text: 'A specialized digital platform engineered by TEKMEN Innovation Solutions to turn complex organizational workflows into reliable, scalable software.' },
   { id: 'ycd', category: 'Innovation Challenges', title: 'YCD Farmer Guide', image: '/img/ycd-farmer-guide.jpg', status: '2025 · Funding track',
     text: 'An agri-tech platform with AI crop-disease diagnosis, a farmer-to-buyer marketplace and expert advisory — built for a national innovation funding track.' },
   { id: 'xena', category: 'Competitions', title: 'XENA AI — AI Innovation Challenge 2026', status: '2026 · Submission prepared',
